@@ -1,6 +1,6 @@
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from flask import Flask
@@ -44,6 +44,10 @@ def create_app(test_config=None):
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
         SESSION_COOKIE_SECURE=os.environ.get("FLASK_ENV") == "production",
+        REMEMBER_COOKIE_DURATION=timedelta(days=3650),
+        REMEMBER_COOKIE_HTTPONLY=True,
+        REMEMBER_COOKIE_SAMESITE="Lax",
+        REMEMBER_COOKIE_SECURE=os.environ.get("FLASK_ENV") == "production",
     )
 
     if test_config:

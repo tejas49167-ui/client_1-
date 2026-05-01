@@ -11,6 +11,16 @@ from lakshmi_app.models import User
 bp = Blueprint("auth", __name__)
 
 
+@bp.after_request
+def prevent_auth_page_cache(response):
+    if request.endpoint in {"auth.login", "auth.signup", "auth.legacy_login", "auth.legacy_signup"}:
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+
+    return response
+
+
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -23,19 +33,19 @@ def login():
 
         if not email or not password:
             flash("Please enter email and password.", "error")
-            return redirect(url_for("auth.login"))
+            return render_template("auth/login.html", form_data={"email": email})
 
         user = get_user_by_email(email)
 
         if user is None or not check_password_hash(user["password_hash"], password):
             flash("Invalid email or password.", "error")
-            return redirect(url_for("auth.login"))
+            return render_template("auth/login.html", form_data={"email": email})
 
-        login_user(_row_to_user(user))
+        login_user(_row_to_user(user), remember=True)
         flash(f"Welcome back, {user['full_name']}!", "success")
         return redirect(next_url or url_for("main.account"))
 
-    return render_template("auth/login.html")
+    return render_template("auth/login.html", form_data={})
 
 
 @bp.route("/signup", methods=["GET", "POST"])
@@ -49,30 +59,27 @@ def signup():
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
         confirm_password = request.form.get("confirm_password", "")
+        form_data = {"full_name": full_name, "phone": phone, "email": email}
 
         if not all([full_name, phone, email, password, confirm_password]):
             flash("Please fill all fields.", "error")
-            return redirect(url_for("auth.signup"))
-
-        if len(password) < 8:
-            flash("Password must be at least 8 characters.", "error")
-            return redirect(url_for("auth.signup"))
+            return render_template("auth/signup.html", form_data=form_data)
 
         if password != confirm_password:
             flash("Passwords do not match.", "error")
-            return redirect(url_for("auth.signup"))
+            return render_template("auth/signup.html", form_data=form_data)
 
         user = create_user(full_name, phone, email, password)
 
         if user is None:
             flash("An account with this email already exists.", "error")
-            return redirect(url_for("auth.signup"))
+            return render_template("auth/signup.html", form_data=form_data)
 
-        login_user(user)
+        login_user(user, remember=True)
         flash("Account created successfully.", "success")
         return redirect(url_for("main.account"))
 
-    return render_template("auth/signup.html")
+    return render_template("auth/signup.html", form_data={})
 
 
 @bp.route("/logout")

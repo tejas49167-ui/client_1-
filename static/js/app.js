@@ -75,3 +75,33 @@ function initProductSearch() {
 }
 
 initProductSearch();
+
+function initLogoutConfirmation() {
+  const logoutLinks = document.querySelectorAll("[data-confirm-logout]");
+
+  logoutLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const shouldLogout = window.confirm("Are you sure you want to logout?");
+
+      if (!shouldLogout) {
+        event.preventDefault();
+      }
+    });
+  });
+}
+
+initLogoutConfirmation();
+
+function toggleForm(event) {
+  event?.preventDefault();
+
+  const section = document.querySelector(".auth-page section");
+  const container = document.querySelector(".auth-page section .container");
+
+  if (!section || !container) {
+    return;
+  }
+
+  container.classList.toggle("active");
+  section.classList.toggle("active");
+}

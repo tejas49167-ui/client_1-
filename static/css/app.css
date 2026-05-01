@@ -1,20 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap");
+
 :root {
   color-scheme: light;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  display: flex;
+  min-height: 100%;
+  justify-content: center;
+  background: rgb(15 23 42);
+}
+
 body {
+  position: relative;
+  width: min(100%, 430px);
   min-height: 100vh;
-  background: #ffffff;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding-bottom: calc(4.9rem + env(safe-area-inset-bottom));
+  background-color: #ffffff;
+  background-image: url("../images/shop/appback.png");
+  background-position: top center;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   isolation: isolate;
+  overflow-x: hidden;
+  box-shadow: 0 0 42px rgb(0 0 0 / 24%);
 }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("../images/shop/appback.jpeg") center / cover fixed no-repeat;
-  opacity: 0.5;
-  z-index: -1;
+
+body {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+main {
+  max-width: 430px !important;
+  padding-left: 0.95rem !important;
+  padding-right: 0.95rem !important;
+}
+
+body.auth-page main {
+  padding: 0 !important;
+}
+
+.btn-primary,
+.btn-secondary {
+  touch-action: manipulation;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+body.auth-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header nav {
+  max-width: 430px !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+header img {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+}
+
+header form {
+  order: 3 !important;
+  width: 100% !important;
+  max-width: none !important;
+  flex: none !important;
+}
+
+header .nav-link,
+header .nav-link ~ a,
+header nav > div {
+  display: none !important;
 }
 .nav-link {
   border-radius: 0.375rem;
@@ -38,6 +120,12 @@ body::before {
   padding: 0.65rem 1rem;
   font-weight: 700;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn-primary,
+.btn-secondary {
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
 }
 
 .btn-primary {
@@ -79,6 +167,11 @@ body::before {
   outline: none;
 }
 
+.form-input {
+  padding: 0.8rem 0.9rem;
+  font-size: 1rem;
+}
+
 .form-input:focus {
   border-color: rgb(245 158 11);
   box-shadow: 0 0 0 3px rgb(245 158 11 / 18%);
@@ -86,8 +179,17 @@ body::before {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.product-grid article > div {
+  padding: 0.75rem;
+}
+
+.product-grid h3 {
+  font-size: 1rem;
+  line-height: 1.25rem;
 }
 
 .metric-card {
@@ -129,8 +231,376 @@ body::before {
   background: #ffffff;
 }
 
-@media (max-width: 720px) {
+[data-slider] img {
+  height: 14rem !important;
+}
+
+body.auth-page {
+  width: min(100vw, 430px);
+  margin: 0 auto;
+  padding-bottom: 0;
+  background-color: #ffffff;
+  background-image: url("../images/shop/appback.png");
+  background-position: top center;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  font-family: "Rubik", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body.auth-page header,
+body.auth-page footer,
+body.auth-page .mobile-bottom-nav {
+  display: none;
+}
+
+body.auth-page section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+body.auth-page section.active {
+  background: transparent;
+}
+
+body.auth-page section .container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 31rem;
+  background: #ffffff;
+  box-shadow: 0 15px 50px rgb(0 0 0 / 10%);
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+body.auth-page section .container .user {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+body.auth-page section .container .user .imgBx {
+  display: none;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  transition: 0.5s;
+}
+
+body.auth-page section .container .user .imgBx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.auth-page section .container .user .formBx {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  transition: 0.5s;
+}
+
+body.auth-page section .container .user .formBx form {
+  width: 100%;
+}
+
+body.auth-page section .container .user .formBx h2 {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+  color: #555555;
+}
+
+body.auth-page section .container .user .formBx input {
+  width: 100%;
+  padding: 10px;
+  background: #f5f5f5;
+  color: #333333;
+  border: #ffffff 2px solid;
+  outline: none;
+  box-shadow: none;
+  font-size: 14px;
+  margin: 8px 0;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+body.auth-page section .container .user .formBx input:hover,
+body.auth-page section .container .user .formBx input:focus {
+  border: #a3ff12 2px solid;
+  transition: 0.5s;
+}
+
+body.auth-page section .container .user .formBx input[type="submit"] {
+  max-width: 350px;
+  background: #a3ff12;
+  color: #ffffff;
+  border: #a3ff12 2px solid;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: 0.5s;
+}
+
+body.auth-page section .container .user .formBx input[type="submit"]:hover {
+  background-color: #f5f5f5;
+  color: #a3ff12;
+  transition: 0.5s;
+}
+
+body.auth-page section .container .user .formBx .signup {
+  position: relative;
+  margin-top: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #555555;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+body.auth-page section .container .user.signupBx .formBx input[type="submit"] {
+  background: #a3ff12;
+  border: #a3ff12 2px solid;
+}
+
+body.auth-page section .container .user.signupBx .formBx input[type="submit"]:hover {
+  background: #f5f5f5;
+  transition: 0.5s;
+  color: #a3ff12;
+}
+
+body.auth-page section .container .user .formBx .signup a {
+  font-weight: 600;
+  text-decoration: none;
+  color: #577eff;
+}
+
+body.auth-page section .container .user .formBx .signupBx {
+  display: none;
+}
+
+body.auth-page section .container .signupBx {
+  pointer-events: none;
+}
+
+body.auth-page section .container.active .signupBx {
+  pointer-events: initial;
+}
+
+body.auth-page section .container .signupBx .formBx {
+  top: 100%;
+}
+
+body.auth-page section .container.active .signupBx .formBx {
+  top: 0;
+}
+
+body.auth-page section .container .signupBx .imgBx {
+  top: -100%;
+  transition: 0.5s;
+}
+
+body.auth-page section .container.active .signupBx .imgBx {
+  top: 0;
+}
+
+body.auth-page section .container .signinBx {
+  top: 0;
+}
+
+body.auth-page section .container.active .signinBx .formBx {
+  top: 100%;
+}
+
+body.auth-page section .container .signinBx .formBx {
+  top: 0;
+}
+
+body.auth-page section .container.active .signinBx .formBx {
+  top: 100%;
+}
+
+body.auth-page section .container .signinBx .imgBx {
+  top: 0;
+  transition: 0.5s;
+}
+
+body.auth-page section .container.active .signinBx .imgBx {
+  top: -100%;
+}
+
+.mobile-bottom-nav {
+  position: fixed;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  z-index: 50;
+  display: grid;
+  width: min(100vw, 430px);
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0.35rem;
+  border-top: 1px solid rgb(226 232 240);
+  background: rgb(255 255 255 / 96%);
+  padding: 0.45rem 0.5rem calc(0.45rem + env(safe-area-inset-bottom));
+  box-shadow: 0 -10px 30px rgb(15 23 42 / 12%);
+  backdrop-filter: blur(14px);
+  transform: translateX(-50%);
+}
+
+.mobile-bottom-nav__item {
+  display: grid;
+  min-width: 0;
+  min-height: 3.65rem;
+  place-items: center;
+  border-radius: 0.5rem;
+  color: rgb(71 85 105);
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.mobile-bottom-nav__item svg {
+  height: 1.55rem;
+  width: 1.55rem;
+  fill: currentColor;
+}
+
+.mobile-bottom-nav__item span {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.mobile-bottom-nav__item.is-active {
+  background: rgb(254 243 199);
+  color: rgb(146 64 14);
+}
+
+.mobile-bottom-nav__item:active {
+  transform: translateY(1px);
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+footer > div {
+  max-width: 430px !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+main > section.grid,
+main > div.grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+main article.grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+main article.grid img {
+  width: 100% !important;
+}
+
+@media (max-width: 420px) {
+  .mobile-bottom-nav__item {
+    min-height: 3.25rem;
+  }
+
+  .mobile-bottom-nav__item svg {
+    height: 1.4rem;
+    width: 1.4rem;
+  }
+}
+
+@media (min-width: 0) {
+  body.auth-page section .container {
+    max-width: 400px;
+  }
+
+  body.auth-page section .container .imgBx {
+    display: none;
+  }
+
+  body.auth-page section .container .user .formBx {
+    width: 100%;
+  }
+
+  body.auth-page section .container.active .signinBx .formBx {
+    top: -100%;
+  }
+
+  body.auth-page section {
+    padding: 0;
+  }
+
+  body.auth-page section .container {
+    min-height: 31rem;
+  }
+
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .product-grid article {
+    border-radius: 0.5rem;
+  }
+
+  .product-grid img {
+    height: 9.5rem;
+  }
+
+  .product-grid article > div {
+    padding: 0.75rem;
+  }
+
+  .product-grid h3 {
+    font-size: 0.95rem;
+    line-height: 1.25rem;
+  }
+
+  .product-grid p {
+    overflow-wrap: anywhere;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    min-height: 2.9rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .slider-arrow {
+    height: 3rem;
+    width: 2rem;
+    font-size: 1.5rem;
   }
 }
