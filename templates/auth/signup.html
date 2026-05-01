@@ -10,7 +10,7 @@
           <img src="{{ url_for('static', filename='images/shop/slide1.jpg') }}" alt="Embroidery design" />
         </div>
         <div class="formBx">
-          <form method="post" action="{{ url_for('auth.login') }}">
+          <form method="post" action="{{ url_for('auth.login', next=request.values.get('next')) if request.values.get('next') else url_for('auth.login') }}">
             <h2>Log In</h2>
             <input
               type="text"
@@ -29,7 +29,7 @@
 
       <div class="user signupBx">
         <div class="formBx">
-          <form method="post" action="{{ url_for('auth.signup') }}">
+          <form method="post" action="{{ url_for('auth.signup', next=request.values.get('next')) if request.values.get('next') else url_for('auth.signup') }}">
             <h2>Create an account</h2>
             <input
               type="text"

@@ -23,13 +23,14 @@ def prevent_auth_page_cache(response):
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
+    next_url = _safe_next_url(request.values.get("next"))
+
     if current_user.is_authenticated:
-        return redirect(url_for("main.account"))
+        return redirect(next_url or url_for("main.account"))
 
     if request.method == "POST":
         identifier = (request.form.get("identifier") or request.form.get("email") or "").strip().lower()
         password = request.form.get("password", "")
-        next_url = _safe_next_url(request.args.get("next"))
 
         if not identifier or not password:
             flash("Please enter email or phone number and password.", "error")
@@ -50,8 +51,10 @@ def login():
 
 @bp.route("/signup", methods=["GET", "POST"])
 def signup():
+    next_url = _safe_next_url(request.values.get("next"))
+
     if current_user.is_authenticated:
-        return redirect(url_for("main.account"))
+        return redirect(next_url or url_for("main.account"))
 
     if request.method == "POST":
         full_name = request.form.get("full_name", "").strip()
@@ -77,7 +80,7 @@ def signup():
 
         login_user(user, remember=True)
         flash("Account created successfully.", "success")
-        return redirect(url_for("main.account"))
+        return redirect(next_url or url_for("main.account"))
 
     return render_template("auth/signup.html", form_data={})
 
