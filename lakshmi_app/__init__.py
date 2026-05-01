@@ -13,6 +13,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 login_manager = LoginManager()
 
 
+def _is_cookie_secure():
+    configured = os.environ.get("COOKIE_SECURE")
+
+    if configured is not None:
+        return configured.strip().lower() in {"1", "true", "yes", "on"}
+
+    return bool(os.environ.get("VERCEL"))
+
+
 def _database_path():
     configured_path = os.environ.get("DATABASE_PATH")
     if configured_path:
@@ -43,11 +52,12 @@ def create_app(test_config=None):
         PRODUCTS_CSV=BASE_DIR / "products" / "products_list.csv",
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
-        SESSION_COOKIE_SECURE=os.environ.get("FLASK_ENV") == "production",
+        SESSION_COOKIE_SECURE=_is_cookie_secure(),
+        SESSION_REFRESH_EACH_REQUEST=True,
         REMEMBER_COOKIE_DURATION=timedelta(days=3650),
         REMEMBER_COOKIE_HTTPONLY=True,
         REMEMBER_COOKIE_SAMESITE="Lax",
-        REMEMBER_COOKIE_SECURE=os.environ.get("FLASK_ENV") == "production",
+        REMEMBER_COOKIE_SECURE=_is_cookie_secure(),
     )
 
     if test_config:
@@ -56,8 +66,7 @@ def create_app(test_config=None):
     app.teardown_appcontext(close_db)
 
     login_manager.login_view = "auth.login"
-    login_manager.login_message = "Please login to continue."
-    login_manager.login_message_category = "error"
+    login_manager.login_message = None
     login_manager.init_app(app)
 
     @login_manager.user_loader

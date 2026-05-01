@@ -21,6 +21,21 @@ def get_user_by_email(email):
     return get_db().execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
 
 
+def get_user_by_login_identifier(identifier):
+    return (
+        get_db()
+        .execute(
+            """
+            SELECT *
+            FROM users
+            WHERE email = ? OR phone = ?
+            """,
+            (identifier, identifier),
+        )
+        .fetchone()
+    )
+
+
 def create_user(full_name, phone, email, password):
     try:
         cursor = get_db().execute(

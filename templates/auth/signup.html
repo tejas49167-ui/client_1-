@@ -13,12 +13,12 @@
           <form method="post" action="{{ url_for('auth.login') }}">
             <h2>Log In</h2>
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              autocomplete="email"
+              type="text"
+              name="identifier"
+              placeholder="Email or phone number"
+              autocomplete="username"
               required
-              value="{{ form_data.email if form_data is defined else '' }}"
+              value="{{ form_data.identifier if form_data is defined else '' }}"
             />
             <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
             <input type="submit" value="Login" />

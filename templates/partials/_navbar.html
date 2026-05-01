@@ -1,5 +1,7 @@
+{% set active_endpoint = request.endpoint or "" %}
+
 <header class="relative z-40 text-white">
-  <nav class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 md:gap-4 md:py-3">
+  <nav class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 md:gap-4 md:py-3" aria-label="Primary navigation">
     <a class="flex shrink-0 items-center" href="{{ url_for('main.landing') }}">
       <img class="h-14 w-14 object-contain sm:h-16 sm:w-16 md:h-[8.5rem] md:w-[8.5rem]" src="{{ url_for('static', filename='images/shop/logo.jpeg') }}" alt="Lakshmi Embroidery" />
     </a>
@@ -17,14 +19,14 @@
     {% endif %}
 
     <div class="hidden items-center gap-3 text-sm md:flex">
-      <a class="nav-link" href="{{ url_for('products.product_list') }}">Products</a>
+      <a class="nav-link {{ 'is-active' if active_endpoint.startswith('products.') }}" href="{{ url_for('products.product_list') }}">Products</a>
       {% if current_user.is_authenticated %}
-        <a class="nav-link" href="{{ url_for('main.account') }}">Account</a>
-        <a class="nav-link" href="{{ url_for('cart.cart_page') }}">Cart</a>
+        <a class="nav-link {{ 'is-active' if active_endpoint == 'main.account' }}" href="{{ url_for('main.account') }}">Account</a>
+        <a class="nav-link {{ 'is-active' if active_endpoint.startswith('cart.') }}" href="{{ url_for('cart.cart_page') }}">Cart</a>
         <a class="nav-link" href="{{ url_for('auth.logout') }}" data-confirm-logout>Logout</a>
       {% else %}
-        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-        <a class="rounded-md bg-amber-400 px-3 py-2 font-semibold text-slate-950" href="{{ url_for('auth.signup') }}">Signup</a>
+        <a class="nav-link {{ 'is-active' if active_endpoint == 'auth.login' }}" href="{{ url_for('auth.login') }}">Login</a>
+        <a class="nav-link nav-link--primary {{ 'is-active' if active_endpoint == 'auth.signup' }}" href="{{ url_for('auth.signup') }}">Signup</a>
       {% endif %}
     </div>
   </nav>

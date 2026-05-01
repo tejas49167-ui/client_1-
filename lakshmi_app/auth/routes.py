@@ -4,7 +4,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
-from lakshmi_app.auth.repository import create_user, get_user_by_email
+from lakshmi_app.auth.repository import create_user, get_user_by_login_identifier
 from lakshmi_app.models import User
 
 
@@ -27,19 +27,19 @@ def login():
         return redirect(url_for("main.account"))
 
     if request.method == "POST":
-        email = request.form.get("email", "").strip().lower()
+        identifier = (request.form.get("identifier") or request.form.get("email") or "").strip().lower()
         password = request.form.get("password", "")
         next_url = _safe_next_url(request.args.get("next"))
 
-        if not email or not password:
-            flash("Please enter email and password.", "error")
-            return render_template("auth/login.html", form_data={"email": email})
+        if not identifier or not password:
+            flash("Please enter email or phone number and password.", "error")
+            return render_template("auth/login.html", form_data={"identifier": identifier})
 
-        user = get_user_by_email(email)
+        user = get_user_by_login_identifier(identifier)
 
         if user is None or not check_password_hash(user["password_hash"], password):
-            flash("Invalid email or password.", "error")
-            return render_template("auth/login.html", form_data={"email": email})
+            flash("Invalid email, phone number, or password.", "error")
+            return render_template("auth/login.html", form_data={"identifier": identifier})
 
         login_user(_row_to_user(user), remember=True)
         flash(f"Welcome back, {user['full_name']}!", "success")
