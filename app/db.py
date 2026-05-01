@@ -1,11 +1,14 @@
 import sqlite3
+from pathlib import Path
 
 from flask import current_app, g
 
 
 def get_db():
     if "db" not in g:
-        connection = sqlite3.connect(current_app.config["DATABASE"])
+        database_path = Path(current_app.config["DATABASE"])
+        database_path.parent.mkdir(parents=True, exist_ok=True)
+        connection = sqlite3.connect(database_path)
         connection.row_factory = sqlite3.Row
         g.db = connection
 

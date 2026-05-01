@@ -1,4 +1,5 @@
 import os
+import shutil
 from datetime import datetime
 from pathlib import Path
 
@@ -12,6 +13,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 login_manager = LoginManager()
 
 
+def _database_path():
+    configured_path = os.environ.get("DATABASE_PATH")
+    if configured_path:
+        return Path(configured_path)
+
+    if os.environ.get("VERCEL"):
+        writable_db = Path("/tmp/users.db")
+        bundled_db = BASE_DIR / "users.db"
+
+        if bundled_db.exists() and not writable_db.exists():
+            shutil.copyfile(bundled_db, writable_db)
+
+        return writable_db
+
+    return BASE_DIR / "users.db"
+
+
 def create_app(test_config=None):
     app = Flask(
         __name__,
@@ -21,7 +39,7 @@ def create_app(test_config=None):
     )
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY", "dev-secret-change-me"),
-        DATABASE=BASE_DIR / "users.db",
+        DATABASE=_database_path(),
         PRODUCTS_CSV=BASE_DIR / "products" / "products_list.csv",
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
