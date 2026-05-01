@@ -2,7 +2,7 @@ import csv
 
 from flask import current_app, url_for
 
-from app.models import Product
+from lakshmi_app.models import Product
 
 
 def list_products():

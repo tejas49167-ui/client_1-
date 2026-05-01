@@ -4,8 +4,8 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
-from app.auth.repository import create_user, get_user_by_email
-from app.models import User
+from lakshmi_app.auth.repository import create_user, get_user_by_email
+from lakshmi_app.models import User
 
 
 bp = Blueprint("auth", __name__)

@@ -1,9 +1,9 @@
 from flask import Blueprint, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
-from app.cart.routes import cart_summary
-from app.db import get_db
-from app.products.repository import list_products, product_image_url
+from lakshmi_app.cart.routes import cart_summary
+from lakshmi_app.db import get_db
+from lakshmi_app.products.repository import list_products, product_image_url
 
 
 bp = Blueprint("main", __name__)

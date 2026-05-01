@@ -58,7 +58,7 @@ def create_app(test_config=None):
 
     @login_manager.user_loader
     def load_user(user_id):
-        from app.auth.repository import get_user_by_id
+        from lakshmi_app.auth.repository import get_user_by_id
 
         return get_user_by_id(user_id)
 

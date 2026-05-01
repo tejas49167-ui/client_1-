@@ -1,8 +1,8 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
-from app.db import get_db
-from app.products.repository import get_product, product_image_url
+from lakshmi_app.db import get_db
+from lakshmi_app.products.repository import get_product, product_image_url
 
 
 bp = Blueprint("cart", __name__)

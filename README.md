@@ -6,8 +6,8 @@ A production-style Flask e-commerce app with blueprints, Flask-Login authenticat
 
 ```text
 .
-├── app.py
-├── app/
+├── wsgi.py
+├── lakshmi_app/
 │   ├── auth/
 │   ├── cart/
 │   ├── main/

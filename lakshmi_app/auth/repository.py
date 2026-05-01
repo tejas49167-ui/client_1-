@@ -2,8 +2,8 @@ import sqlite3
 
 from werkzeug.security import generate_password_hash
 
-from app.db import get_db
-from app.models import User
+from lakshmi_app.db import get_db
+from lakshmi_app.models import User
 
 
 def get_user_by_id(user_id):
