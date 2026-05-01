@@ -3,16 +3,17 @@
 {% block title %}Products | Lakshmi Embroidery{% endblock %}
 
 {% block content %}
-  <div class="mb-5">
-    <h1 class="text-3xl font-bold">Products</h1>
-    <p class="mt-1 text-slate-600">Catalog loaded from <code>products/products_list.csv</code>.</p>
-  </div>
-
-  <div class="product-grid">
+  <div class="product-grid" data-product-grid>
     {% for product in products %}
       {% include "products/_card.html" %}
     {% else %}
-      <div class="rounded-lg bg-white p-6 shadow">No products found. Add rows to <code>products/products_list.csv</code>.</div>
+      <div class="rounded-lg bg-white p-6 shadow">
+        {% if query %}
+          No products found for "{{ query }}".
+        {% else %}
+          No products found. Add rows to <code>products/products_list.csv</code>.
+        {% endif %}
+      </div>
     {% endfor %}
   </div>
 {% endblock %}

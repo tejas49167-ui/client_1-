@@ -1,12 +1,15 @@
 import os
+from datetime import datetime
 from pathlib import Path
 
 from flask import Flask
+from flask_login import LoginManager
 
 from .db import close_db, init_db
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+login_manager = LoginManager()
 
 
 def create_app(test_config=None):
@@ -29,6 +32,21 @@ def create_app(test_config=None):
         app.config.update(test_config)
 
     app.teardown_appcontext(close_db)
+
+    login_manager.login_view = "auth.login"
+    login_manager.login_message = "Please login to continue."
+    login_manager.login_message_category = "error"
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        from app.auth.repository import get_user_by_id
+
+        return get_user_by_id(user_id)
+
+    @app.context_processor
+    def inject_template_globals():
+        return {"current_year": datetime.now().year}
 
     from .auth.routes import bp as auth_bp
     from .cart.routes import bp as cart_bp

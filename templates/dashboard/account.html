@@ -6,8 +6,8 @@
   <section class="grid gap-6 lg:grid-cols-[1fr_320px]">
     <div class="rounded-lg bg-white p-6 shadow">
       <p class="text-sm font-semibold uppercase tracking-wide text-amber-700">Account</p>
-      <h1 class="mt-2 text-3xl font-bold">Welcome, {{ g.user.full_name }}</h1>
-      <p class="mt-2 text-slate-600">{{ g.user.email }} · {{ g.user.phone }}</p>
+      <h1 class="mt-2 text-3xl font-bold">Welcome, {{ current_user.full_name }}</h1>
+      <p class="mt-2 text-slate-600">{{ current_user.email }} · {{ current_user.phone }}</p>
     </div>
     <div class="rounded-lg bg-white p-6 shadow">
       <h2 class="text-xl font-bold">Cart</h2>

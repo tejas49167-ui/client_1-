@@ -1,12 +1,17 @@
 from dataclasses import dataclass
 
+from flask_login import UserMixin
+
 
 @dataclass(frozen=True)
-class User:
+class User(UserMixin):
     id: int
     full_name: str
     phone: str
     email: str
+
+    def get_id(self):
+        return str(self.id)
 
 
 @dataclass(frozen=True)

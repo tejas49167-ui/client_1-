@@ -1,6 +1,6 @@
-from flask import Blueprint, g, render_template
+from flask import Blueprint, redirect, render_template, url_for
+from flask_login import current_user, login_required
 
-from app.auth.routes import login_required
 from app.cart.routes import cart_summary
 from app.db import get_db
 from app.products.repository import list_products, product_image_url
@@ -10,7 +10,6 @@ bp = Blueprint("main", __name__)
 
 
 @bp.route("/")
-@bp.route("/index.html")
 def landing():
     products = list_products()[:4]
     slides = [
@@ -27,10 +26,6 @@ def landing():
     )
 
 
-@bp.route("/privelage/")
-@bp.route("/privelage/index.html")
-@bp.route("/dashboard/")
-@bp.route("/dashboard/index.html")
 @bp.route("/account")
 @login_required
 def account():
@@ -41,7 +36,20 @@ def account():
         WHERE user_id = ?
         ORDER BY created_at DESC
         """,
-        (g.user["id"],),
+        (current_user.id,),
     ).fetchall()
     summary = cart_summary()
     return render_template("dashboard/account.html", orders=orders, summary=summary)
+
+
+@bp.get("/index.html")
+def legacy_index():
+    return redirect(url_for("main.landing"), code=301)
+
+
+@bp.get("/dashboard/")
+@bp.get("/dashboard/index.html")
+@bp.get("/privelage/")
+@bp.get("/privelage/index.html")
+def legacy_account():
+    return redirect(url_for("main.account"), code=301)

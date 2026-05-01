@@ -1,65 +1,37 @@
-import sqlite3
-from functools import wraps
+from urllib.parse import urlsplit
 
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.security import check_password_hash
 
-from app.db import get_db
+from app.auth.repository import create_user, get_user_by_email
+from app.models import User
 
 
 bp = Blueprint("auth", __name__)
 
 
-def current_user():
-    user_id = session.get("user_id")
-
-    if not user_id:
-        return None
-
-    return get_db().execute(
-        "SELECT id, full_name, phone, email, created_at FROM users WHERE id = ?",
-        (user_id,),
-    ).fetchone()
-
-
-def login_required(view):
-    @wraps(view)
-    def wrapped_view(*args, **kwargs):
-        if g.user is None:
-            flash("Please login to continue.", "error")
-            return redirect(url_for("auth.login", next=request.path))
-
-        return view(*args, **kwargs)
-
-    return wrapped_view
-
-
-@bp.before_app_request
-def load_logged_in_user():
-    g.user = current_user()
-
-
 @bp.route("/login", methods=["GET", "POST"])
-@bp.route("/login.html", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.account"))
+
     if request.method == "POST":
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
-        next_url = request.args.get("next")
+        next_url = _safe_next_url(request.args.get("next"))
 
         if not email or not password:
             flash("Please enter email and password.", "error")
             return redirect(url_for("auth.login"))
 
-        user = get_db().execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+        user = get_user_by_email(email)
 
         if user is None or not check_password_hash(user["password_hash"], password):
             flash("Invalid email or password.", "error")
             return redirect(url_for("auth.login"))
 
-        session.clear()
-        session["user_id"] = user["id"]
-        session["user_name"] = user["full_name"]
+        login_user(_row_to_user(user))
         flash(f"Welcome back, {user['full_name']}!", "success")
         return redirect(next_url or url_for("main.account"))
 
@@ -67,8 +39,10 @@ def login():
 
 
 @bp.route("/signup", methods=["GET", "POST"])
-@bp.route("/signup.html", methods=["GET", "POST"])
 def signup():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.account"))
+
     if request.method == "POST":
         full_name = request.form.get("full_name", "").strip()
         phone = request.form.get("phone", "").strip()
@@ -88,22 +62,13 @@ def signup():
             flash("Passwords do not match.", "error")
             return redirect(url_for("auth.signup"))
 
-        try:
-            cursor = get_db().execute(
-                """
-                INSERT INTO users (full_name, phone, email, password_hash)
-                VALUES (?, ?, ?, ?)
-                """,
-                (full_name, phone, email, generate_password_hash(password)),
-            )
-            get_db().commit()
-        except sqlite3.IntegrityError:
+        user = create_user(full_name, phone, email, password)
+
+        if user is None:
             flash("An account with this email already exists.", "error")
             return redirect(url_for("auth.signup"))
 
-        session.clear()
-        session["user_id"] = cursor.lastrowid
-        session["user_name"] = full_name
+        login_user(user)
         flash("Account created successfully.", "success")
         return redirect(url_for("main.account"))
 
@@ -111,7 +76,35 @@ def signup():
 
 
 @bp.route("/logout")
+@login_required
 def logout():
-    session.clear()
+    logout_user()
     flash("You have been logged out.", "success")
     return redirect(url_for("auth.login"))
+
+
+@bp.get("/login.html")
+def legacy_login():
+    return redirect(url_for("auth.login"), code=301)
+
+
+@bp.get("/signup.html")
+def legacy_signup():
+    return redirect(url_for("auth.signup"), code=301)
+
+
+def _row_to_user(row):
+    return User(
+        id=row["id"],
+        full_name=row["full_name"],
+        phone=row["phone"],
+        email=row["email"],
+    )
+
+
+def _safe_next_url(next_url):
+    if not next_url:
+        return None
+
+    parsed = urlsplit(next_url)
+    return next_url if not parsed.netloc and not parsed.scheme else None

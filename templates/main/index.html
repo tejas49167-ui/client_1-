@@ -13,34 +13,20 @@
     <button class="slider-arrow right-0" type="button" data-slider-next aria-label="Next slide">›</button>
   </section>
 
-  <section class="mt-8 grid gap-5 rounded-lg bg-white p-6 shadow md:grid-cols-[1.2fr_0.8fr]">
-    <div>
-      <p class="text-sm font-semibold uppercase tracking-wide text-amber-700">Custom Tailoring Studio</p>
-      <h1 class="mt-2 text-4xl font-bold tracking-tight md:text-5xl">Tailoring, embroidery, and alterations in one modern shop.</h1>
-      <p class="mt-4 max-w-2xl text-slate-600">
-        Browse designs, save products to cart, and place tailoring orders from a clean account dashboard.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a class="btn-primary" href="{{ url_for('products.product_list') }}">Shop Products</a>
-        <a class="btn-secondary" href="{{ url_for('auth.signup') }}">Create Account</a>
-      </div>
-    </div>
-    <div class="grid gap-3 sm:grid-cols-3 md:grid-cols-1">
-      <div class="metric-card"><strong>Fast</strong><span>CSV powered catalog</span></div>
-      <div class="metric-card"><strong>Secure</strong><span>Hashed passwords</span></div>
-      <div class="metric-card"><strong>Scalable</strong><span>Blueprint architecture</span></div>
-    </div>
-  </section>
+  
 
   <section class="mt-8">
-    <div class="mb-4 flex items-center justify-between">
-      <h2 class="text-2xl font-bold">Featured Products</h2>
+    <div class="mb-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <h2 class="text-2xl font-bold">Featured designs</h2>
+      </div>
       <a class="text-sm font-semibold text-amber-700" href="{{ url_for('products.product_list') }}">View all</a>
     </div>
-    <div class="product-grid">
+    <div class="product-grid" data-product-grid>
       {% for product in products %}
         {% include "products/_card.html" %}
       {% endfor %}
     </div>
+    
   </section>
 {% endblock %}

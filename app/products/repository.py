@@ -58,9 +58,6 @@ def _normalise_image(path):
     if path.startswith("products/"):
         return f"images/{path}"
 
-    if path.startswith("shop_photos/"):
-        return path.replace("shop_photos/", "images/shop/")
-
     if path.startswith("static/"):
         return path.replace("static/", "", 1)
 

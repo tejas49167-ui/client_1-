@@ -1,6 +1,6 @@
-from flask import Blueprint, flash, g, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, url_for
+from flask_login import current_user, login_required
 
-from app.auth.routes import login_required
 from app.cart.routes import cart_summary, get_cart_items
 from app.db import get_db
 
@@ -32,7 +32,7 @@ def place_order():
         return redirect(url_for("cart.cart_page"))
 
     order_data = {
-        "user_id": g.user["id"],
+        "user_id": current_user.id,
         "total_amount": summary["total"],
         "status": "Placed",
     }
@@ -61,7 +61,7 @@ def place_order():
             (order_id, item["product_id"], item["product_name"], item["price"], item["quantity"]),
         )
 
-    get_db().execute("DELETE FROM cart_items WHERE user_id = ?", (g.user["id"],))
+    get_db().execute("DELETE FROM cart_items WHERE user_id = ?", (current_user.id,))
     get_db().commit()
     flash("Order placed successfully.", "success")
     return redirect(url_for("main.account"))

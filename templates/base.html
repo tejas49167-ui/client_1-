@@ -8,39 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
   </head>
-  <body class="bg-slate-50 text-slate-900">
-    <header class="sticky top-0 z-40 bg-slate-950 text-white shadow-lg">
-      <nav class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
-        <a class="flex shrink-0 items-center gap-3" href="{{ url_for('main.landing') }}">
-          <img class="h-10 w-10 rounded object-cover" src="{{ url_for('static', filename='images/shop/logo.jpeg') }}" alt="Lakshmi Embroidery" />
-          <span class="font-semibold tracking-wide">Lakshmi</span>
-        </a>
+  <body class="flex min-h-screen flex-col text-slate-900">
+    {% include "partials/_navbar.html" %}
 
-        <form class="hidden flex-1 md:block" action="{{ url_for('products.product_list') }}" method="get">
-          <input
-            class="w-full rounded-md border-0 px-4 py-2 text-slate-900 outline-none"
-            type="search"
-            name="q"
-            placeholder="Search tailoring designs"
-            value="{{ request.args.get('q', '') }}"
-          />
-        </form>
-
-        <div class="ml-auto flex items-center gap-3 text-sm">
-          <a class="nav-link" href="{{ url_for('products.product_list') }}">Products</a>
-          {% if g.user %}
-            <a class="nav-link" href="{{ url_for('main.account') }}">Account</a>
-            <a class="nav-link" href="{{ url_for('cart.cart_page') }}">Cart</a>
-            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
-          {% else %}
-            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-            <a class="rounded-md bg-amber-400 px-3 py-2 font-semibold text-slate-950" href="{{ url_for('auth.signup') }}">Signup</a>
-          {% endif %}
-        </div>
-      </nav>
-    </header>
-
-    <main class="mx-auto max-w-7xl px-4 py-6">
+    <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-6">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           <div class="mb-5 grid gap-2">
@@ -55,6 +26,8 @@
 
       {% block content %}{% endblock %}
     </main>
+
+    {% include "partials/_footer.html" %}
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>

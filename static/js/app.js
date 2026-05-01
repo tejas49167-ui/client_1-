@@ -47,3 +47,31 @@ function initSlider() {
 }
 
 initSlider();
+
+function initProductSearch() {
+  const searchInput = document.querySelector("[data-product-search]");
+  const productGrid = document.querySelector("[data-product-grid]");
+
+  if (!searchInput || !productGrid) {
+    return;
+  }
+
+  const cards = [...productGrid.querySelectorAll("[data-product-card]")];
+  const emptyState = document.querySelector("[data-product-empty]");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const text = (card.dataset.productSearchText || card.textContent).toLowerCase();
+      const isVisible = text.includes(query);
+      card.hidden = !isVisible;
+      visibleCount += isVisible ? 1 : 0;
+    });
+
+    emptyState?.classList.toggle("hidden", visibleCount > 0);
+  });
+}
+
+initProductSearch();

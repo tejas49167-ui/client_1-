@@ -1,4 +1,4 @@
-<article class="overflow-hidden rounded-lg bg-white shadow transition hover:-translate-y-1 hover:shadow-lg">
+<article class="overflow-hidden rounded-lg bg-white shadow transition hover:-translate-y-1 hover:shadow-lg" data-product-card data-product-search-text="{{ product.name }} {{ product.category }} {{ '%.0f'|format(product.price) }}">
   <a href="{{ url_for('products.product_detail', product_id=product.id) }}">
     <img class="h-52 w-full object-cover" src="{{ product_image_url(product) }}" alt="{{ product.name }}" />
   </a>

@@ -1,6 +1,6 @@
-from flask import Blueprint, flash, g, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 
-from app.auth.routes import login_required
 from app.db import get_db
 from app.products.repository import get_product, product_image_url
 
@@ -8,8 +8,6 @@ from app.products.repository import get_product, product_image_url
 bp = Blueprint("cart", __name__)
 
 
-@bp.route("/privelage/cart.html")
-@bp.route("/dashboard/cart.html")
 @bp.route("/cart")
 @login_required
 def cart_page():
@@ -31,7 +29,7 @@ def add_to_cart(product_id=None):
     quantity = max(int(request.form.get("quantity", 1)), 1)
     existing = get_db().execute(
         "SELECT id, quantity FROM cart_items WHERE user_id = ? AND product_id = ?",
-        (g.user["id"], product.id),
+        (current_user.id, product.id),
     ).fetchone()
 
     if existing:
@@ -46,7 +44,7 @@ def add_to_cart(product_id=None):
     else:
         columns = _table_columns("cart_items")
         insert_data = {
-            "user_id": g.user["id"],
+            "user_id": current_user.id,
             "product_id": product.id,
             "product_name": product.name,
             "price": product.price,
@@ -82,7 +80,7 @@ def update_cart_item(item_id):
         SET quantity = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ? AND user_id = ?
         """,
-        (quantity, item_id, g.user["id"]),
+        (quantity, item_id, current_user.id),
     )
     get_db().commit()
     flash("Cart updated.", "success")
@@ -92,7 +90,7 @@ def update_cart_item(item_id):
 @bp.route("/cart/remove/<int:item_id>", methods=["POST"])
 @login_required
 def remove_cart_item(item_id):
-    get_db().execute("DELETE FROM cart_items WHERE id = ? AND user_id = ?", (item_id, g.user["id"]))
+    get_db().execute("DELETE FROM cart_items WHERE id = ? AND user_id = ?", (item_id, current_user.id))
     get_db().commit()
     flash("Item removed from cart.", "success")
     return redirect(url_for("cart.cart_page"))
@@ -106,7 +104,7 @@ def get_cart_items():
         WHERE user_id = ?
         ORDER BY updated_at DESC, created_at DESC
         """,
-        (g.user["id"],),
+        (current_user.id,),
     ).fetchall()
 
     return [
@@ -124,7 +122,7 @@ def get_cart_items():
 
 
 def cart_summary(items=None):
-    if g.get("user") is None:
+    if not current_user.is_authenticated:
         return {"count": 0, "total": 0}
 
     items = items if items is not None else get_cart_items()
@@ -136,3 +134,9 @@ def cart_summary(items=None):
 def _table_columns(table_name):
     rows = get_db().execute(f"PRAGMA table_info({table_name})").fetchall()
     return {row["name"] for row in rows}
+
+
+@bp.get("/dashboard/cart.html")
+@bp.get("/privelage/cart.html")
+def legacy_cart_page():
+    return redirect(url_for("cart.cart_page"), code=301)

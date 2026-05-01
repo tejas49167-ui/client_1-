@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, render_template
+from flask import Blueprint, abort, redirect, render_template, request, url_for
 
 from .repository import get_product, list_products, product_image_url
 
@@ -6,16 +6,23 @@ from .repository import get_product, list_products, product_image_url
 bp = Blueprint("products", __name__)
 
 
-@bp.route("/privelage/designs.html")
-@bp.route("/dashboard/designs.html")
-@bp.route("/viewdesign.html")
 @bp.route("/products")
 def product_list():
+    query = request.args.get("q", "").strip().lower()
     products = list_products()
+
+    if query:
+        products = [
+            product
+            for product in products
+            if query in f"{product.name} {product.category} {product.price:.0f}".lower()
+        ]
+
     return render_template(
         "products/list.html",
         products=products,
         product_image_url=product_image_url,
+        query=query,
     )
 
 
@@ -31,3 +38,10 @@ def product_detail(product_id):
         product=product,
         product_image_url=product_image_url,
     )
+
+
+@bp.get("/dashboard/designs.html")
+@bp.get("/privelage/designs.html")
+@bp.get("/viewdesign.html")
+def legacy_product_list():
+    return redirect(url_for("products.product_list"), code=301)
