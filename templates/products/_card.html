@@ -1,0 +1,13 @@
+<article class="overflow-hidden rounded-lg bg-white shadow transition hover:-translate-y-1 hover:shadow-lg">
+  <a href="{{ url_for('products.product_detail', product_id=product.id) }}">
+    <img class="h-52 w-full object-cover" src="{{ product_image_url(product) }}" alt="{{ product.name }}" />
+  </a>
+  <div class="p-4">
+    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ product.category }}</p>
+    <h3 class="mt-1 line-clamp-2 text-lg font-semibold">{{ product.name }}</h3>
+    <p class="mt-2 text-xl font-bold text-slate-950">Rs. {{ "%.0f"|format(product.price) }}</p>
+    <form class="mt-4" action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" method="post">
+      <button class="btn-primary w-full" type="submit">Add to Cart</button>
+    </form>
+  </div>
+</article>

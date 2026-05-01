@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Signup | Lakshmi Embroidery{% endblock %}
+
+{% block content %}
+  <section class="mx-auto max-w-md rounded-lg bg-white p-6 shadow">
+    <h1 class="text-2xl font-bold">Create Account</h1>
+    <p class="mt-1 text-sm text-slate-600">Save products and place orders.</p>
+    <form class="mt-6 grid gap-4" method="post">
+      <label class="form-label">Full Name <input class="form-input" type="text" name="full_name" required /></label>
+      <label class="form-label">Phone Number <input class="form-input" type="tel" name="phone" required /></label>
+      <label class="form-label">Email <input class="form-input" type="email" name="email" required /></label>
+      <label class="form-label">Password <input class="form-input" type="password" name="password" required /></label>
+      <label class="form-label">Confirm Password <input class="form-input" type="password" name="confirm_password" required /></label>
+      <button class="btn-primary w-full" type="submit">Create Account</button>
+    </form>
+    <p class="mt-4 text-center text-sm text-slate-600">
+      Already have an account?
+      <a class="font-semibold text-amber-700" href="{{ url_for('auth.login') }}">Login</a>
+    </p>
+  </section>
+{% endblock %}

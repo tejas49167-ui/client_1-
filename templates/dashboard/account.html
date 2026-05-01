@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Account | Lakshmi Embroidery{% endblock %}
+
+{% block content %}
+  <section class="grid gap-6 lg:grid-cols-[1fr_320px]">
+    <div class="rounded-lg bg-white p-6 shadow">
+      <p class="text-sm font-semibold uppercase tracking-wide text-amber-700">Account</p>
+      <h1 class="mt-2 text-3xl font-bold">Welcome, {{ g.user.full_name }}</h1>
+      <p class="mt-2 text-slate-600">{{ g.user.email }} · {{ g.user.phone }}</p>
+    </div>
+    <div class="rounded-lg bg-white p-6 shadow">
+      <h2 class="text-xl font-bold">Cart</h2>
+      <p class="mt-2 text-slate-600">{{ summary.count }} item(s)</p>
+      <p class="mt-1 text-2xl font-bold">Rs. {{ "%.0f"|format(summary.total) }}</p>
+      <a class="btn-primary mt-4 w-full" href="{{ url_for('cart.cart_page') }}">Open Cart</a>
+    </div>
+  </section>
+
+  <section class="mt-8 rounded-lg bg-white p-6 shadow">
+    <h2 class="text-2xl font-bold">Orders</h2>
+    <div class="mt-4 grid gap-3">
+      {% for order in orders %}
+        <div class="flex flex-wrap items-center justify-between gap-3 rounded-md border p-4">
+          <div>
+            <p class="font-semibold">Order #{{ order.id }}</p>
+            <p class="text-sm text-slate-600">{{ order.created_at }}</p>
+          </div>
+          <p class="font-semibold">Rs. {{ "%.0f"|format(order.total_amount) }}</p>
+          <span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-700">{{ order.status }}</span>
+        </div>
+      {% else %}
+        <p class="text-slate-600">No orders yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

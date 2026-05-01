@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Lakshmi Embroidery{% endblock %}
+
+{% block content %}
+  <section class="mx-auto max-w-md rounded-lg bg-white p-6 shadow">
+    <h1 class="text-2xl font-bold">Login</h1>
+    <p class="mt-1 text-sm text-slate-600">Access your account, cart, and orders.</p>
+    <form class="mt-6 grid gap-4" method="post">
+      <label class="form-label">
+        Email
+        <input class="form-input" type="email" name="email" placeholder="Add email" required />
+      </label>
+      <label class="form-label">
+        Password
+        <input class="form-input" type="password" name="password" placeholder="Add password" required />
+      </label>
+      <button class="btn-primary w-full" type="submit">Login</button>
+    </form>
+    <p class="mt-4 text-center text-sm text-slate-600">
+      Don’t have an account?
+      <a class="font-semibold text-amber-700" href="{{ url_for('auth.signup') }}">Signup</a>
+    </p>
+  </section>
+{% endblock %}

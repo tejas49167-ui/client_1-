@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakshmi Embroidery | Home</title>
+    <link rel="icon" href="../shop_photos/logo.jpeg" type="image/jpeg" />
+    <link rel="shortcut icon" href="../shop_photos/logo.jpeg" type="image/jpeg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="../tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body class="text-ink font-body">
+    <div class="page-shell min-h-screen flex flex-col">
+
+      <header class="site-header">
+        <a class="home-logo" href="index.html" aria-label="Lakshmi Tailoring Studio home">
+          <img src="../shop_photos/logo.jpeg" alt="Lakshmi Tailoring Studio logo" />
+        </a>
+        <nav class="site-nav">
+          <a class="active" href="index.html">Home</a>
+          <a href="aboutus.html">About</a>
+          <a href="others.html">Services</a>
+          <a href="viewdesign.html">Designs</a>
+          <a href="videocall.html">Consultation</a>
+          <a href="login.html">Login</a>
+
+          <div class="language-switch" aria-label="Language options">
+            <button type="button" data-lang-option="en">English</button>
+            <button type="button" data-lang-option="kn">ಕನ್ನಡ</button>
+          </div>
+        </nav>
+      </header>
+
+      <main class="stack-layout">
+        <section class="home-slider" aria-label="Featured tailoring work" data-home-slider>
+          <div class="slider-track" data-slider-track>
+            <article class="slider-panel is-active">
+              <img src="../shop_photos/slide1.jpg" alt="Lakshmi Embroidery featured tailoring slide 1" />
+            </article>
+            <article class="slider-panel">
+              <img src="../shop_photos/slide2.jpg" alt="Lakshmi Embroidery featured tailoring slide 2" />
+            </article>
+            <article class="slider-panel">
+              <img src="../shop_photos/slide3.jpg" alt="Lakshmi Embroidery featured tailoring slide 3" />
+            </article>
+            <article class="slider-panel">
+              <img src="../shop_photos/slide4.webp" alt="Lakshmi Embroidery featured tailoring slide 4" />
+            </article>
+          </div>
+
+          <button class="slider-control slider-prev" type="button" aria-label="Previous slide" data-slider-prev>
+            ‹
+          </button>
+          <button class="slider-control slider-next" type="button" aria-label="Next slide" data-slider-next>
+            ›
+          </button>
+
+          <div class="slider-dots" aria-label="Slide selection" data-slider-dots>
+            <button class="is-active" type="button" aria-label="Show slide 1" data-slider-dot></button>
+            <button type="button" aria-label="Show slide 2" data-slider-dot></button>
+            <button type="button" aria-label="Show slide 3" data-slider-dot></button>
+            <button type="button" aria-label="Show slide 4" data-slider-dot></button>
+          </div>
+        </section>
+
+        <section class="hero-card">
+          <p class="eyebrow">Custom Tailoring Studio</p>
+          <h1 class="hero-title">Lakshmi Embroidery</h1>
+          <p class="hero-copy">
+            Custom blouses, embroidery finishing, alterations, and occasion wear stitched with careful
+            measurements and personal consultation.
+          </p>
+          <div class="cta-row">
+            <a class="primary-btn" href="viewdesign.html">View Designs</a>
+            <a class="secondary-btn" href="videocall.html">Book Consultation</a>
+          </div>
+        </section>
+
+        <section class="card-grid">
+          <article class="info-card">
+            <h2>Custom Stitching</h2>
+            <p>Blouses, dresses, bridal pieces, and family-function outfits planned around your fabric and fit.</p>
+          </article>
+
+          <article class="info-card">
+            <h2>Embroidery Finish</h2>
+            <p>Neat detailing, sleeve and neck work, and finishing touches that make the piece feel complete.</p>
+          </article>
+
+          <article class="info-card">
+            <h2>Alterations</h2>
+            <p>Reliable fitting corrections, repairs, and adjustments for pieces you already love.</p>
+          </article>
+        </section>
+
+        <section class="two-col">
+          <article class="note-card">
+            <h2>How Orders Work</h2>
+            <ul class="simple-list">
+              <li>Share your reference, fabric, and measurement needs.</li>
+              <li>Discuss finishing, delivery date, and price before stitching begins.</li>
+              <li>Save selected designs in your account cart for repeat visits.</li>
+            </ul>
+          </article>
+
+          <article class="note-card">
+            <h2>Client Account</h2>
+            <p class="muted-copy">
+              Sign up to save designs, review your cart, and keep tailoring conversations organized in one place.
+            </p>
+            <div class="cta-row">
+              <a class="primary-btn" href="signup.html">Create Account</a>
+            </div>
+          </article>
+        </section>
+      </main>
+
+    </div>
+
+    <script src="../script.js"></script>
+  </body>
+</html>

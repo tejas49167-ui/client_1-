@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakshmi Embroidery | Login</title>
+    <link rel="icon" href="../shop_photos/logo.jpeg" type="image/jpeg" />
+    <link rel="shortcut icon" href="../shop_photos/logo.jpeg" type="image/jpeg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Bebas+Neue&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="../tailwind-config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page-wrapper min-h-screen flex flex-col">
+      
+      <header class="site-header">
+        <a class="home-logo" href="index.html" aria-label="Lakshmi Tailoring Studio home">
+          <img src="../shop_photos/logo.jpeg" alt="Lakshmi Tailoring Studio logo" />
+        </a>
+        <nav class="site-nav">
+          <a href="index.html">Home</a>
+          <a href="signup.html">Signup</a>
+
+          <div class="language-switch" aria-label="Language options">
+            <button type="button" data-lang-option="en">English</button>
+            <button type="button" data-lang-option="kn">ಕನ್ನಡ</button>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Centering happens here -->
+      <main class="flex-1 flex items-center justify-center">
+        <section class="form-card w-full max-w-md">
+          <div data-flash-messages></div>
+          <script type="application/json" data-flash-payload>{{ get_flashed_messages(with_categories=true) | tojson }}</script>
+
+          <form class="stack-form" action="{{ url_for('login') }}" method="post">
+            
+            <label>
+              Email
+              <input type="email" name="email" placeholder="Add email" required />
+            </label>
+
+            <label>
+              Password
+              <input type="password" name="password" placeholder="Add password" required />
+            </label>
+
+            <button type="submit" class="primary-btn w-full">Login</button>
+
+            <p class="text-sm mt-3 text-center">
+              Don’t have an account?
+              <a href="signup.html" class="text-blue-500 hover:underline">
+                Signup
+              </a>
+            </p>
+
+            
+          </form>
+
+        </section>
+      </main>
+
+    </div>
+
+    <script src="../script.js"></script>
+  </body>
+</html>

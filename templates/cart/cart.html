@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Cart | Lakshmi Embroidery{% endblock %}
+
+{% block content %}
+  <h1 class="mb-5 text-3xl font-bold">Shopping Cart</h1>
+  <div class="grid gap-6 lg:grid-cols-[1fr_340px]">
+    <section class="grid gap-4">
+      {% for item in items %}
+        <article class="grid gap-4 rounded-lg bg-white p-4 shadow sm:grid-cols-[120px_1fr_auto]">
+          <img class="h-28 w-full rounded object-cover sm:w-28" src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.product_name }}" />
+          <div>
+            <h2 class="font-semibold">{{ item.product_name }}</h2>
+            <p class="mt-1 text-slate-600">Rs. {{ "%.0f"|format(item.price) }}</p>
+            <form class="mt-3 flex gap-2" action="{{ url_for('cart.update_cart_item', item_id=item.id) }}" method="post">
+              <input class="form-input w-24" type="number" name="quantity" value="{{ item.quantity }}" min="1" />
+              <button class="btn-secondary" type="submit">Update</button>
+            </form>
+          </div>
+          <form action="{{ url_for('cart.remove_cart_item', item_id=item.id) }}" method="post">
+            <button class="text-sm font-semibold text-red-600" type="submit">Remove</button>
+          </form>
+        </article>
+      {% else %}
+        <div class="rounded-lg bg-white p-6 shadow">Your cart is empty.</div>
+      {% endfor %}
+    </section>
+
+    <aside class="h-fit rounded-lg bg-white p-5 shadow">
+      <h2 class="text-xl font-bold">Order Summary</h2>
+      <div class="mt-4 flex justify-between"><span>Items</span><strong>{{ summary.count }}</strong></div>
+      <div class="mt-2 flex justify-between text-lg"><span>Total</span><strong>Rs. {{ "%.0f"|format(summary.total) }}</strong></div>
+      <a class="btn-primary mt-5 w-full" href="{{ url_for('orders.checkout') }}">Checkout</a>
+    </aside>
+  </div>
+{% endblock %}
