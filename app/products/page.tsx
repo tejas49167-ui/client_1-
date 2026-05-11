@@ -4,8 +4,9 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProductsPage({ searchParams }: { searchParams: { q?: string } }) {
-  const query = searchParams.q?.trim() || "";
+export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const params = await searchParams;
+  const query = params.q?.trim() || "";
   const products = await prisma.product.findMany({
     where: {
       isActive: true,
