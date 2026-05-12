@@ -40,7 +40,7 @@ cp .env.example .env.local
 Create or update the database:
 
 ```bash
-npm run db:push
+npm run db:migrate
 npm run db:seed
 ```
 
@@ -76,5 +76,4 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
 SESSION_SECRET="replace-with-a-long-random-secret"
 ```
 
-4. Run `npm run db:push` against the production database once before using the app.
-5. Seed products with `npm run db:seed` if the production database is empty.
+4. Run `npm run db:deploy` against the production database once before using the app.

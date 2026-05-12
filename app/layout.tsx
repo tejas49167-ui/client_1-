@@ -8,7 +8,10 @@ import { getCart } from "@/lib/cart";
 
 export const metadata: Metadata = {
   title: "Lakshmi Embroidery",
-  description: "Embroidery, tailoring, cart, and ordering experience for Lakshmi Embroidery."
+  description: "Embroidery, tailoring, cart, and ordering experience for Lakshmi Embroidery.",
+  icons: {
+    icon: "/favicon.svg"
+  }
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
