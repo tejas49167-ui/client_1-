@@ -9,7 +9,7 @@ A Next.js e-commerce app for Lakshmi Embroidery with product browsing, account a
 - TypeScript
 - Tailwind CSS
 - Prisma
-- SQLite for local development
+- PostgreSQL
 
 ## Project Structure
 
@@ -31,11 +31,17 @@ Install dependencies:
 npm install
 ```
 
-Create or update the local database:
+Create `.env.local` from `.env.example` and set a PostgreSQL connection string:
 
 ```bash
-DATABASE_URL="file:./dev.db" npm run db:push
-DATABASE_URL="file:./dev.db" npm run db:seed
+cp .env.example .env.local
+```
+
+Create or update the database:
+
+```bash
+npm run db:push
+npm run db:seed
 ```
 
 Start the development server:
@@ -55,6 +61,20 @@ http://localhost:3000
 For local development, `.env.local` should contain:
 
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
 SESSION_SECRET="replace-with-a-long-random-secret"
 ```
+
+## Deploy To Vercel
+
+1. Import the GitHub repository in Vercel.
+2. Keep the framework preset as `Next.js`.
+3. Add these environment variables in Vercel Project Settings:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
+SESSION_SECRET="replace-with-a-long-random-secret"
+```
+
+4. Run `npm run db:push` against the production database once before using the app.
+5. Seed products with `npm run db:seed` if the production database is empty.
