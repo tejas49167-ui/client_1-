@@ -38,3 +38,19 @@ input {
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-marigold focus:ring-offset-2;
 }
+
+.announcement-marquee {
+  display: inline-block;
+  min-width: 100%;
+  animation: announcement-marquee 18s linear infinite;
+}
+
+@keyframes announcement-marquee {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}

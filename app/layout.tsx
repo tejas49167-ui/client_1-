@@ -22,6 +22,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body>
         <header className="sticky top-0 z-30 border-b border-stone-200/80 bg-white/90 backdrop-blur">
+          <div className="overflow-hidden bg-ink py-2 text-sm font-semibold text-white">
+            <div className="announcement-marquee whitespace-nowrap">
+              <span className="mx-8 inline-block">Still in large phase of development, this is half constructed thing</span>
+              <span className="mx-8 inline-block" aria-hidden="true">
+                Still in large phase of development, this is half constructed thing
+              </span>
+            </div>
+          </div>
           <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
             <Link href="/" className="flex items-center gap-3 font-semibold text-ink">
               <Image src="/images/shop/logo.jpeg" alt="Lakshmi Embroidery" width={44} height={44} className="h-11 w-11 rounded-md object-cover" priority />
